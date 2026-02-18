@@ -218,7 +218,7 @@ export default function ROICalculator() {
                 <span className="text-cyan font-bold">60%</span> over 5 years
               </span>
             </div>
-            <GlowButton variant="cyan" size="sm" href="#contact">
+            <GlowButton variant="primary" size="sm" href="https://calendly.com/dizzy-from-626/30min">
               Start Saving
             </GlowButton>
           </motion.div>
