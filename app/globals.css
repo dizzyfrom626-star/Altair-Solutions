@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #06060a;
+  }
+
+  ::selection {
+    background-color: rgba(79, 143, 234, 0.3);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #06060a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(79, 143, 234, 0.2);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(79, 143, 234, 0.35);
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-xl bg-white/[0.04] border border-white/[0.06];
+  }
+
+  .glass-card {
+    @apply backdrop-blur-md bg-white/[0.02] border border-white/[0.06] rounded-2xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-500 hover:border-accent/20 hover:bg-white/[0.04];
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent via-accent-cyan to-accent-purple bg-clip-text text-transparent;
+  }
+
+  .text-gradient-subtle {
+    @apply bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-accent-cyan to-accent bg-clip-text text-transparent;
+  }
+
+  .text-gradient-purple {
+    @apply bg-gradient-to-r from-accent-purple to-accent bg-clip-text text-transparent;
+  }
+
+  .section-padding {
+    @apply py-24 sm:py-32 lg:py-40 px-6;
+  }
+
+  .section-header {
+    @apply text-center mb-16 lg:mb-20;
+  }
+
+  .section-label {
+    @apply font-mono text-xs tracking-[0.3em] uppercase text-accent/60 block mb-4;
+  }
+
+  .section-title {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-lg sm:text-xl text-muted-light max-w-2xl mx-auto mt-6 leading-relaxed;
+  }
+}
