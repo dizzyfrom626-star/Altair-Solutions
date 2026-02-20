@@ -37,7 +37,7 @@ const footerColumns = [
 const socialLinks = [
   { icon: <Twitter size={16} />, href: "#", label: "Twitter" },
   { icon: <Linkedin size={16} />, href: "#", label: "LinkedIn" },
-  { icon: <Mail size={16} />, href: "mailto:hello@altairsolutions.dev", label: "Email" },
+  { icon: <Mail size={16} />, href: "mailto:AltairSolutions.info@gmail.com", label: "Email" },
 ];
 
 export default function Footer() {
@@ -71,9 +71,9 @@ export default function Footer() {
             <GlowButton
               variant="ghost"
               size="lg"
-              href="mailto:hello@altairsolutions.dev"
+              href="mailto:AltairSolutions.info@gmail.com"
             >
-              hello@altairsolutions.dev
+              AltairSolutions.info@gmail.com
             </GlowButton>
           </div>
         </motion.div>
