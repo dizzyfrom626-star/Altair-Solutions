@@ -11,6 +11,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
+import AnimatedCounter from "./AnimatedCounter";
 
 const industries = [
   {
@@ -30,7 +31,7 @@ const industries = [
       "Automated appointment reminders and rescheduling",
       "On-prem deployment — your data never leaves your facility",
     ],
-    stat: { value: "73%", label: "reduction in admin time" },
+    stat: { value: 73, suffix: "%", label: "reduction in admin time" },
   },
   {
     id: "realestate",
@@ -49,7 +50,7 @@ const industries = [
       "Automated lead qualification and CRM updates",
       "Smart follow-up sequences that feel personal",
     ],
-    stat: { value: "4.2x", label: "more appointments booked" },
+    stat: { value: 4.2, suffix: "x", label: "more appointments booked", decimals: 1 },
   },
   {
     id: "legal",
@@ -68,7 +69,7 @@ const industries = [
       "Automated client status updates with approval gates",
       "Intake forms processed and routed in seconds",
     ],
-    stat: { value: "60%", label: "faster document review" },
+    stat: { value: 60, suffix: "%", label: "faster document review" },
   },
   {
     id: "ecommerce",
@@ -87,7 +88,7 @@ const industries = [
       "Automated cart recovery via email and SMS",
       "Intelligent ticket routing and escalation",
     ],
-    stat: { value: "38%", label: "increase in recovered revenue" },
+    stat: { value: 38, suffix: "%", label: "increase in recovered revenue" },
   },
   {
     id: "professional",
@@ -106,7 +107,7 @@ const industries = [
       "Automated client onboarding workflows",
       "Smart scheduling and resource allocation",
     ],
-    stat: { value: "22hrs", label: "saved per team member weekly" },
+    stat: { value: 22, suffix: "hrs", label: "saved per team member weekly" },
   },
 ];
 
@@ -145,36 +146,50 @@ export default function IndustryTabs() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {/* Tab bar */}
+          {/* Tab bar with animated indicator */}
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             {industries.map((industry) => (
               <button
                 key={industry.id}
                 onClick={() => setActiveTab(industry.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  activeTab === industry.id
-                    ? "bg-accent/10 text-accent border border-accent/20"
-                    : "text-white/40 hover:text-white/60 hover:bg-white/[0.03] border border-transparent"
-                }`}
+                className="relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors duration-300"
               >
-                {industry.icon}
-                <span className="hidden sm:inline">{industry.label}</span>
+                {activeTab === industry.id && (
+                  <motion.div
+                    layoutId="industry-tab-bg"
+                    className="absolute inset-0 bg-accent/10 border border-accent/20 rounded-xl"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className={`relative z-10 ${
+                  activeTab === industry.id
+                    ? "text-accent"
+                    : "text-white/40 hover:text-white/60"
+                }`}>
+                  {industry.icon}
+                </span>
+                <span className={`relative z-10 hidden sm:inline ${
+                  activeTab === industry.id
+                    ? "text-accent"
+                    : "text-white/40 hover:text-white/60"
+                }`}>
+                  {industry.label}
+                </span>
               </button>
             ))}
           </div>
 
-          {/* Tab content */}
+          {/* Tab content with scale + fade */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.98 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="glass-card p-8 sm:p-10"
             >
               <div className="grid lg:grid-cols-2 gap-10">
-                {/* Left: headline + pain points */}
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight">
                     {activeIndustry.headline}
@@ -189,19 +204,21 @@ export default function IndustryTabs() {
                     </span>
                     <div className="mt-3 space-y-3">
                       {activeIndustry.painPoints.map((point, i) => (
-                        <div
+                        <motion.div
                           key={i}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: i * 0.08 }}
                           className="flex items-start gap-3 text-sm text-white/40"
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-red-400/40 mt-1.5 shrink-0" />
                           {point}
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Right: solutions + stat */}
                 <div>
                   <div className="mb-8">
                     <span className="text-xs font-mono text-emerald-400/60 uppercase tracking-wider">
@@ -209,8 +226,11 @@ export default function IndustryTabs() {
                     </span>
                     <div className="mt-3 space-y-3">
                       {activeIndustry.solutions.map((solution, i) => (
-                        <div
+                        <motion.div
                           key={i}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: i * 0.08 + 0.1 }}
                           className="flex items-start gap-3 text-sm text-white/60"
                         >
                           <CheckCircle2
@@ -218,15 +238,19 @@ export default function IndustryTabs() {
                             className="text-emerald-400/60 mt-0.5 shrink-0"
                           />
                           {solution}
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Stat callout */}
                   <div className="p-5 rounded-xl bg-accent/[0.04] border border-accent/10">
                     <div className="text-3xl font-bold text-accent mb-1">
-                      {activeIndustry.stat.value}
+                      <AnimatedCounter
+                        key={activeTab}
+                        end={activeIndustry.stat.value}
+                        suffix={activeIndustry.stat.suffix}
+                        decimals={activeIndustry.stat.decimals || 0}
+                      />
                     </div>
                     <div className="text-sm text-white/40">
                       {activeIndustry.stat.label}
@@ -236,10 +260,10 @@ export default function IndustryTabs() {
                   <div className="mt-6">
                     <a
                       href="https://calendly.com/dizzy-from-626/30min"
-                      className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors group"
                     >
                       Get a free audit for your industry
-                      <ArrowRight size={14} />
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-200" />
                     </a>
                   </div>
                 </div>

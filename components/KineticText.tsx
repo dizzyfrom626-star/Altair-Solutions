@@ -17,12 +17,14 @@ export default function KineticText() {
 
   const oldOpacity = useTransform(scrollYProgress, [0.2, 0.45], [1, 0]);
   const oldY = useTransform(scrollYProgress, [0.2, 0.45], [0, -60]);
-  const oldBlurVal = useTransform(scrollYProgress, [0.2, 0.45], [0, 12]);
+  const oldScale = useTransform(scrollYProgress, [0.2, 0.45], [1, 0.92]);
+  const oldBlurVal = useTransform(scrollYProgress, [0.2, 0.45], [0, 14]);
   const oldFilter = useMotionTemplate`blur(${oldBlurVal}px)`;
 
   const newOpacity = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
   const newY = useTransform(scrollYProgress, [0.45, 0.7], [60, 0]);
-  const newBlurVal = useTransform(scrollYProgress, [0.45, 0.7], [12, 0]);
+  const newScale = useTransform(scrollYProgress, [0.45, 0.7], [1.08, 1]);
+  const newBlurVal = useTransform(scrollYProgress, [0.45, 0.7], [14, 0]);
   const newFilter = useMotionTemplate`blur(${newBlurVal}px)`;
 
   const strikeWidth = useTransform(
@@ -37,6 +39,9 @@ export default function KineticText() {
     [0.45, 0.7],
     [0.2, 1]
   );
+
+  const lineHeight = useTransform(scrollYProgress, [0.55, 0.75], ["0%", "100%"]);
+  const lineOpacity = useTransform(scrollYProgress, [0.55, 0.7], [0, 1]);
 
   return (
     <section
@@ -60,6 +65,7 @@ export default function KineticText() {
             style={{
               opacity: oldOpacity,
               y: oldY,
+              scale: oldScale,
               filter: oldFilter,
             }}
           >
@@ -71,10 +77,11 @@ export default function KineticText() {
             style={{
               opacity: newOpacity,
               y: newY,
+              scale: newScale,
               filter: newFilter,
             }}
           >
-            <span className="text-gradient-blue drop-shadow-[0_0_30px_rgba(79,143,234,0.3)]">
+            <span className="text-gradient-blue drop-shadow-[0_0_40px_rgba(79,143,234,0.35)]">
               Autonomous Growth
             </span>
           </motion.h2>
@@ -86,10 +93,13 @@ export default function KineticText() {
           </span>
         </motion.div>
 
-        <motion.div
-          className="mt-12 w-px h-24 bg-gradient-to-b from-accent/30 to-transparent"
-          style={{ opacity: newOpacity }}
-        />
+        {/* Animated gradient line */}
+        <div className="mt-12 relative w-px h-24">
+          <motion.div
+            className="absolute top-0 left-0 w-full bg-gradient-to-b from-accent/50 via-accent-cyan/30 to-transparent"
+            style={{ height: lineHeight, opacity: lineOpacity }}
+          />
+        </div>
       </div>
     </section>
   );

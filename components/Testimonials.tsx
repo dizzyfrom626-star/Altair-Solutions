@@ -64,16 +64,22 @@ export default function BookingSection() {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Left: what to expect */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="space-y-5"
-          >
+          {/* Left: what to expect - staggered from left */}
+          <div className="space-y-5">
             {expectations.map((item, i) => (
-              <div key={i} className="glass-card p-6 flex gap-4">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: i * 0.12,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                viewport={{ once: true }}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="glass-card p-6 flex gap-4 transition-shadow duration-300 hover:shadow-glow"
+              >
                 <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
                   {item.icon}
                 </div>
@@ -85,17 +91,17 @@ export default function BookingSection() {
                     {item.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Right: CTA card */}
+          {/* Right: CTA card - enters from right with pulsing border */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
             viewport={{ once: true }}
-            className="glass-card p-8 flex flex-col justify-between"
+            className="glass-card p-8 flex flex-col justify-between relative overflow-hidden shimmer-border"
           >
             <div>
               <h3 className="text-xl font-bold text-white mb-2">
@@ -108,13 +114,17 @@ export default function BookingSection() {
 
               <div className="space-y-3 mb-8">
                 {noStrings.map((item, i) => (
-                  <div
+                  <motion.div
                     key={i}
+                    initial={{ opacity: 0, x: 10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
+                    viewport={{ once: true }}
                     className="flex items-center gap-2.5 text-sm text-white/50"
                   >
                     <CheckCircle2 size={14} className="text-emerald-400/50 shrink-0" />
                     {item}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>

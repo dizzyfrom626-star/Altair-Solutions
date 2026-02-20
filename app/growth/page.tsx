@@ -9,7 +9,6 @@ import {
   TrendingUp,
   BarChart3,
   Target,
-  Clock,
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
@@ -17,6 +16,7 @@ import Navbar from "@/components/Navbar";
 import PageHero from "@/components/PageHero";
 import Footer from "@/components/Footer";
 import GlowButton from "@/components/GlowButton";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const speedToLeadSteps = [
   {
@@ -82,10 +82,10 @@ const services = [
 ];
 
 const results = [
-  { value: "4.2x", label: "Average ROAS" },
-  { value: "<10s", label: "Speed to Lead" },
-  { value: "67%", label: "Lower CAC" },
-  { value: "3.1M+", label: "Leads Generated" },
+  { value: 4.2, suffix: "x", label: "Average ROAS", decimals: 1 },
+  { prefix: "<", value: 10, suffix: "s", label: "Speed to Lead" },
+  { value: 67, suffix: "%", label: "Lower CAC" },
+  { value: 3.1, suffix: "M+", label: "Leads Generated", decimals: 1 },
 ];
 
 function SpeedToLead() {
@@ -123,13 +123,21 @@ function SpeedToLead() {
               key={step.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="glass-card p-6 relative"
+              transition={{
+                duration: 0.5,
+                delay: i * 0.15,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              className="glass-card p-6 relative group hover:border-accent-cyan/20 transition-colors duration-500"
             >
               {i < speedToLeadSteps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-3 -translate-y-1/2 text-white/10">
+                <motion.div
+                  className="hidden lg:block absolute top-1/2 -right-3 -translate-y-1/2 text-white/10"
+                  animate={isInView ? { opacity: [0, 1], x: [- 5, 0] } : {}}
+                  transition={{ duration: 0.3, delay: 0.5 + i * 0.15 }}
+                >
                   <ArrowRight size={16} />
-                </div>
+                </motion.div>
               )}
               <div className="w-10 h-10 rounded-xl bg-accent-cyan/10 border border-accent-cyan/20 flex items-center justify-center text-accent-cyan mb-4">
                 {step.icon}
@@ -176,8 +184,12 @@ function ServicesGrid() {
               key={service.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="glass-card-hover p-7"
+              transition={{
+                duration: 0.5,
+                delay: i * 0.12,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              className="glass-card-hover shimmer-border p-7"
             >
               <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-accent mb-5">
                 {service.icon}
@@ -222,7 +234,12 @@ function ResultsStrip() {
               className="text-center"
             >
               <div className="text-3xl sm:text-4xl font-bold text-accent mb-1">
-                {r.value}
+                {r.prefix || ""}
+                <AnimatedCounter
+                  end={r.value}
+                  suffix={r.suffix}
+                  decimals={r.decimals || 0}
+                />
               </div>
               <div className="text-xs font-mono text-muted uppercase tracking-wider">
                 {r.label}

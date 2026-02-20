@@ -42,12 +42,15 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer id="contact" className="relative border-t border-white/[0.04]">
+    <footer id="contact" className="relative">
+      {/* Gradient divider */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+
       <div className="py-24 sm:py-32 px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           viewport={{ once: true }}
           className="max-w-3xl mx-auto text-center"
         >
@@ -76,9 +79,26 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      <div className="border-t border-white/[0.04] px-6 py-16">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10">
-          <div className="col-span-2 md:col-span-1">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+
+      <div className="px-6 py-16">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08 } },
+          }}
+          className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10"
+        >
+          <motion.div
+            className="col-span-2 md:col-span-1"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+            }}
+          >
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-accent to-accent-purple flex items-center justify-center">
                 <span className="text-background font-bold text-xs">A</span>
@@ -91,10 +111,16 @@ export default function Footer() {
               Growth and operations partner. We build the engine — you hold the
               keys.
             </p>
-          </div>
+          </motion.div>
 
           {footerColumns.map((col) => (
-            <div key={col.title}>
+            <motion.div
+              key={col.title}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
+            >
               <h4 className="text-xs font-mono text-white/40 uppercase tracking-wider mb-4">
                 {col.title}
               </h4>
@@ -104,7 +130,7 @@ export default function Footer() {
                     <a
                       key={link.label}
                       href={link.href}
-                      className="block text-sm text-white/30 hover:text-white/60 transition-colors"
+                      className="block text-sm text-white/30 hover:text-white/60 transition-colors duration-300"
                     >
                       {link.label}
                     </a>
@@ -112,33 +138,37 @@ export default function Footer() {
                     <Link
                       key={link.label}
                       href={link.href}
-                      className="block text-sm text-white/30 hover:text-white/60 transition-colors"
+                      className="block text-sm text-white/30 hover:text-white/60 transition-colors duration-300"
                     >
                       {link.label}
                     </Link>
                   )
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      <div className="border-t border-white/[0.04] px-6 py-6">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+
+      <div className="px-6 py-6">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-xs text-white/20">
             &copy; {new Date().getFullYear()} Altair Solutions. All rights reserved.
           </span>
           <div className="flex items-center gap-2">
             {socialLinks.map((social) => (
-              <a
+              <motion.a
                 key={social.label}
                 href={social.href}
                 aria-label={social.label}
                 className="p-2 rounded-lg text-white/25 hover:text-accent hover:bg-white/[0.03] transition-all duration-300"
+                whileHover={{ scale: 1.15, boxShadow: "0 0 12px rgba(79,143,234,0.2)" }}
+                whileTap={{ scale: 0.95 }}
               >
                 {social.icon}
-              </a>
+              </motion.a>
             ))}
           </div>
         </div>

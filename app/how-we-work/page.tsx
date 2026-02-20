@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import {
   Search,
   Wrench,
@@ -34,6 +34,7 @@ const steps = [
     iconBoxClass: "bg-sky-400/10 border-sky-400/20 text-sky-400",
     subtitleClass: "text-sky-400/60",
     checkClass: "text-sky-400/50",
+    lineColor: "from-sky-400/30",
   },
   {
     number: "02",
@@ -51,6 +52,7 @@ const steps = [
     iconBoxClass: "bg-accent/10 border-accent/20 text-accent",
     subtitleClass: "text-accent/60",
     checkClass: "text-accent/50",
+    lineColor: "from-accent/30",
   },
   {
     number: "03",
@@ -68,6 +70,7 @@ const steps = [
     iconBoxClass: "bg-accent-purple/10 border-accent-purple/20 text-accent-purple",
     subtitleClass: "text-accent-purple/60",
     checkClass: "text-accent-purple/50",
+    lineColor: "from-accent-purple/30",
   },
 ];
 
@@ -93,34 +96,49 @@ const differentiators = [
 ];
 
 function ProcessTimeline() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+  const lineHeight = useTransform(scrollYProgress, [0.1, 0.7], ["0%", "100%"]);
 
   return (
     <section className="section-padding relative">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(79,143,234,0.03),transparent_60%)]" />
-      <div className="relative max-w-4xl mx-auto" ref={ref}>
+      <div className="relative max-w-4xl mx-auto" ref={containerRef}>
+        {/* Scroll-drawn connector line */}
+        <div className="absolute left-[27px] top-0 bottom-0 w-px bg-white/[0.03] hidden md:block">
+          <motion.div
+            className="w-full bg-gradient-to-b from-accent/30 via-accent-purple/20 to-transparent"
+            style={{ height: lineHeight }}
+          />
+        </div>
+
         <div className="space-y-8">
           {steps.map((step, i) => (
             <motion.div
               key={step.number}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.2 }}
+              transition={{
+                duration: 0.7,
+                delay: i * 0.25,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="relative"
             >
-              {i < steps.length - 1 && (
-                <div className="absolute left-[27px] top-[80px] bottom-[-32px] w-px bg-gradient-to-b from-white/[0.06] to-transparent hidden md:block" />
-              )}
-
-              <div className="glass-card p-8 sm:p-10">
+              <div className="glass-card p-8 sm:p-10 hover:border-white/[0.1] transition-colors duration-500">
                 <div className="flex flex-col md:flex-row gap-8">
                   <div className="shrink-0">
-                    <div
+                    <motion.div
                       className={`w-14 h-14 rounded-2xl border flex items-center justify-center ${step.iconBoxClass}`}
+                      whileHover={{ rotate: 5, scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
                     >
                       {step.icon}
-                    </div>
+                    </motion.div>
                   </div>
 
                   <div className="flex-1">
@@ -143,16 +161,19 @@ function ProcessTimeline() {
 
                     <div className="grid sm:grid-cols-2 gap-3">
                       {step.details.map((detail, j) => (
-                        <div
+                        <motion.div
                           key={j}
                           className="flex items-start gap-2.5 text-sm text-white/50"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={isInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{ delay: i * 0.25 + j * 0.08 + 0.3 }}
                         >
                           <CheckCircle2
                             size={14}
                             className={`mt-0.5 shrink-0 ${step.checkClass}`}
                           />
                           {detail}
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
@@ -190,13 +211,21 @@ function Differentiators() {
               key={d.title}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              transition={{
+                duration: 0.5,
+                delay: i * 0.12,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               viewport={{ once: true }}
-              className="glass-card-hover p-7 text-center"
+              className="glass-card-hover shimmer-border p-7 text-center"
             >
-              <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mx-auto mb-5">
+              <motion.div
+                className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mx-auto mb-5"
+                whileHover={{ y: -3 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              >
                 {d.icon}
-              </div>
+              </motion.div>
               <h3 className="text-base font-semibold text-white mb-2">
                 {d.title}
               </h3>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 const faqs = [
   {
@@ -52,24 +52,36 @@ function FAQItem({
   answer,
   isOpen,
   onToggle,
+  index,
 }: {
   question: string;
   answer: string;
   isOpen: boolean;
   onToggle: () => void;
+  index: number;
 }) {
   return (
-    <div className="border-b border-white/[0.04]">
+    <motion.div
+      className="border-b border-white/[0.04]"
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      viewport={{ once: true }}
+    >
       <button
         onClick={onToggle}
         className="w-full flex items-center justify-between py-5 text-left group"
       >
-        <span className="text-base font-medium text-white/80 group-hover:text-white transition-colors pr-4">
+        <span className="text-base font-medium text-white/80 group-hover:text-white transition-colors duration-300 pr-4">
           {question}
         </span>
-        <span className="text-white/30 shrink-0">
-          {isOpen ? <Minus size={16} /> : <Plus size={16} />}
-        </span>
+        <motion.span
+          className="text-white/30 shrink-0"
+          animate={{ rotate: isOpen ? 45 : 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        >
+          <Plus size={16} />
+        </motion.span>
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -77,7 +89,10 @@ function FAQItem({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{
+              height: { type: "spring", stiffness: 200, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
             className="overflow-hidden"
           >
             <p className="text-sm text-white/40 leading-relaxed pb-5">
@@ -86,7 +101,7 @@ function FAQItem({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
@@ -124,6 +139,7 @@ export default function FAQ() {
               answer={faq.answer}
               isOpen={openIndex === i}
               onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+              index={i}
             />
           ))}
         </motion.div>

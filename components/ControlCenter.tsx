@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef } from "react";
 import {
   ShieldCheck,
   Check,
@@ -58,6 +57,39 @@ Best,
 Sarah`,
 };
 
+function TypewriterText({ text, isInView }: { text: string; isInView: boolean }) {
+  const [displayed, setDisplayed] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < text.length) {
+        setDisplayed(text.slice(0, i + 1));
+        i++;
+      } else {
+        clearInterval(timer);
+        setTimeout(() => setShowCursor(false), 1500);
+      }
+    }, 18);
+    return () => clearInterval(timer);
+  }, [isInView, text]);
+
+  return (
+    <span>
+      {displayed}
+      {showCursor && isInView && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.6, repeat: Infinity }}
+          className="inline-block w-[2px] h-[1em] bg-accent/60 ml-0.5 align-text-bottom"
+        />
+      )}
+    </span>
+  );
+}
+
 export default function ControlCenter() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -65,7 +97,6 @@ export default function ControlCenter() {
 
   return (
     <section className="section-padding relative overflow-hidden">
-      {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(79,143,234,0.04),transparent_60%)]" />
 
       <div className="relative max-w-6xl mx-auto">
@@ -104,7 +135,11 @@ export default function ControlCenter() {
                 Agent Activity
               </span>
               <span className="ml-auto flex items-center gap-1.5 text-xs font-mono text-emerald-400/70">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <motion.span
+                  className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
                 Live
               </span>
             </div>
@@ -113,9 +148,13 @@ export default function ControlCenter() {
               {agentSteps.map((step, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -30 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.4 + i * 0.15 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.4 + i * 0.2,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
                   className="flex items-start gap-3"
                 >
                   <div className="relative mt-1">
@@ -123,13 +162,21 @@ export default function ControlCenter() {
                       className={`w-7 h-7 rounded-lg flex items-center justify-center ${
                         step.status === "complete"
                           ? "bg-emerald-500/10 text-emerald-400"
-                          : "bg-accent/10 text-accent animate-pulse"
+                          : "bg-accent/10 text-accent"
                       }`}
                     >
                       {step.icon}
                     </div>
                     {i < agentSteps.length - 1 && (
-                      <div className="absolute top-7 left-1/2 -translate-x-1/2 w-px h-6 bg-white/[0.06]" />
+                      <motion.div
+                        className="absolute top-7 left-1/2 -translate-x-1/2 w-px bg-white/[0.08]"
+                        initial={{ height: 0 }}
+                        animate={isInView ? { height: 24 } : {}}
+                        transition={{
+                          duration: 0.4,
+                          delay: 0.6 + i * 0.2,
+                        }}
+                      />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -150,7 +197,7 @@ export default function ControlCenter() {
             </div>
           </div>
 
-          {/* Email draft preview with approve button */}
+          {/* Email draft preview with typewriter + approve button */}
           <div className="glass-card p-6 sm:p-8">
             <div className="flex items-center gap-2 mb-6">
               <div className="p-1.5 rounded-lg bg-accent-purple/10">
@@ -179,7 +226,7 @@ export default function ControlCenter() {
               </div>
               <div className="h-px bg-white/[0.04] mb-4" />
               <pre className="text-sm text-white/50 whitespace-pre-wrap font-sans leading-relaxed">
-                {draftEmail.body}
+                <TypewriterText text={draftEmail.body} isInView={isInView} />
               </pre>
             </motion.div>
 
@@ -197,6 +244,20 @@ export default function ControlCenter() {
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent/10 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/20 transition-colors cursor-pointer"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    animate={{
+                      boxShadow: [
+                        "0 0 0 0 rgba(79,143,234,0)",
+                        "0 0 0 6px rgba(79,143,234,0.1)",
+                        "0 0 0 0 rgba(79,143,234,0)",
+                      ],
+                    }}
+                    transition={{
+                      boxShadow: {
+                        duration: 2.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      },
+                    }}
                   >
                     <ShieldCheck size={16} />
                     Approve & Send

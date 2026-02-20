@@ -52,6 +52,67 @@ function AnimatedNumber({
   return <span ref={ref}>{prefix}0</span>;
 }
 
+function TerminalTyping({ lines, isInView }: { lines: { prompt: boolean; text: string }[]; isInView: boolean }) {
+  const [visibleLines, setVisibleLines] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < lines.length) {
+        setVisibleLines(i + 1);
+        i++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 300);
+    return () => clearInterval(timer);
+  }, [isInView, lines.length]);
+
+  return (
+    <div className="rounded-xl bg-black/30 border border-white/[0.04] p-4 font-mono text-xs">
+      <div className="flex items-center gap-1.5 mb-3">
+        <div className="w-2 h-2 rounded-full bg-red-500/50" />
+        <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
+        <div className="w-2 h-2 rounded-full bg-green-500/50" />
+      </div>
+      {lines.slice(0, visibleLines).map((line, j) => (
+        <motion.div
+          key={j}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          className="text-white/50"
+        >
+          {line.prompt && <span className="text-accent mr-2">$</span>}
+          {line.text.includes("✓") ? (
+            <span>
+              {line.text.replace("✓", "")}
+              <span className="text-emerald-400">✓</span>
+            </span>
+          ) : line.text.includes("100%") ? (
+            <span>
+              {line.text.replace("100%", "")}
+              <span className="text-accent-cyan">100%</span>
+            </span>
+          ) : line.text.includes(":11434") ? (
+            <span className="text-emerald-400">{line.text}</span>
+          ) : (
+            line.text
+          )}
+        </motion.div>
+      ))}
+      {visibleLines < lines.length && isInView && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.6, repeat: Infinity }}
+          className="inline-block w-[6px] h-[12px] bg-accent/60 ml-0.5"
+        />
+      )}
+    </div>
+  );
+}
+
 function ServiceCards() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -117,8 +178,12 @@ function ServiceCards() {
               key={card.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="glass-card-hover p-7"
+              transition={{
+                duration: 0.5,
+                delay: i * 0.12,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              className="glass-card-hover shimmer-border p-7"
             >
               <div className="flex items-start justify-between mb-5">
                 <div className="w-11 h-11 rounded-xl bg-accent-purple/10 border border-accent-purple/20 flex items-center justify-center text-accent-purple">
@@ -153,50 +218,18 @@ function ServiceCards() {
               )}
 
               {card.terminal && (
-                <div className="rounded-xl bg-black/30 border border-white/[0.04] p-4 font-mono text-xs">
-                  <div className="flex items-center gap-1.5 mb-3">
-                    <div className="w-2 h-2 rounded-full bg-red-500/50" />
-                    <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
-                    <div className="w-2 h-2 rounded-full bg-green-500/50" />
-                  </div>
-                  {terminalLines.map((line, j) => (
-                    <motion.div
-                      key={j}
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: j * 0.15, duration: 0.3 }}
-                      viewport={{ once: true }}
-                      className="text-white/50"
-                    >
-                      {line.prompt && (
-                        <span className="text-accent mr-2">$</span>
-                      )}
-                      {line.text.includes("✓") ? (
-                        <span>
-                          {line.text.replace("✓", "")}
-                          <span className="text-emerald-400">✓</span>
-                        </span>
-                      ) : line.text.includes("100%") ? (
-                        <span>
-                          {line.text.replace("100%", "")}
-                          <span className="text-accent-cyan">100%</span>
-                        </span>
-                      ) : line.text.includes(":11434") ? (
-                        <span className="text-emerald-400">{line.text}</span>
-                      ) : (
-                        line.text
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
+                <TerminalTyping lines={terminalLines} isInView={isInView} />
               )}
 
               {card.steps && (
                 <div className="space-y-2">
-                  {card.steps.map((step) => (
-                    <div
+                  {card.steps.map((step, j) => (
+                    <motion.div
                       key={step.label}
                       className="flex items-center gap-2.5 text-xs font-mono"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ delay: 0.3 + j * 0.1 }}
                     >
                       <div
                         className={`w-1.5 h-1.5 rounded-full ${step.done ? "bg-emerald-400" : "bg-accent animate-pulse"}`}
@@ -207,7 +240,7 @@ function ServiceCards() {
                       >
                         {step.done ? "complete" : "active"}
                       </span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               )}
@@ -332,12 +365,12 @@ function ROICalculator() {
                   ${totalCloud.toLocaleString()}
                 </span>
               </div>
-              <div className="h-2.5 bg-white/[0.04] rounded-full overflow-hidden">
+              <div className="h-3 bg-white/[0.04] rounded-full overflow-hidden">
                 <motion.div
                   className="h-full rounded-full bg-gradient-to-r from-red-500/50 to-red-400/30"
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
-                  transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 1.2, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
                   viewport={{ once: true }}
                 />
               </div>
@@ -352,14 +385,14 @@ function ROICalculator() {
                   ${totalLocal.toLocaleString()}
                 </span>
               </div>
-              <div className="h-2.5 bg-white/[0.04] rounded-full overflow-hidden">
+              <div className="h-3 bg-white/[0.04] rounded-full overflow-hidden">
                 <motion.div
                   className="h-full rounded-full bg-gradient-to-r from-accent/60 to-accent/30"
                   initial={{ width: 0 }}
                   whileInView={{
                     width: `${(totalLocal / totalCloud) * 100}%`,
                   }}
-                  transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+                  transition={{ duration: 1.2, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                   viewport={{ once: true }}
                 />
               </div>
@@ -446,8 +479,12 @@ function SecuritySection() {
               key={feature.title}
               initial={{ opacity: 0, y: 25 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass-card-hover p-7 flex gap-5"
+              transition={{
+                duration: 0.5,
+                delay: i * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              className="glass-card-hover shimmer-border p-7 flex gap-5"
             >
               <div className="w-11 h-11 rounded-xl bg-accent-purple/10 border border-accent-purple/20 flex items-center justify-center text-accent-purple shrink-0">
                 {feature.icon}

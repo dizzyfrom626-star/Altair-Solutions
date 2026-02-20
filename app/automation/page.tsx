@@ -62,12 +62,14 @@ function VoiceDemo() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <button
+        <motion.button
           onClick={() => setPlaying(!playing)}
           className="w-10 h-10 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center text-accent hover:bg-accent/20 transition-colors"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           {playing ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
-        </button>
+        </motion.button>
         <div className="flex-1">
           <div className="h-1 rounded-full bg-white/[0.06] overflow-hidden">
             <motion.div
@@ -166,7 +168,7 @@ function TriageDemo() {
           key={i}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: i * 0.15 }}
+          transition={{ duration: 0.4, delay: i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="flex items-start gap-3"
         >
           <div className="relative">
@@ -176,7 +178,12 @@ function TriageDemo() {
               {step.icon}
             </div>
             {i < steps.length - 1 && (
-              <div className="absolute top-8 left-1/2 -translate-x-1/2 w-px h-5 bg-white/[0.06]" />
+              <motion.div
+                className="absolute top-8 left-1/2 -translate-x-1/2 w-px bg-white/[0.08]"
+                initial={{ height: 0 }}
+                animate={{ height: 20 }}
+                transition={{ duration: 0.3, delay: 0.2 + i * 0.12 }}
+              />
             )}
           </div>
           <div className="pt-1">
@@ -188,7 +195,13 @@ function TriageDemo() {
             </span>
           </div>
           <div className="ml-auto pt-1.5">
-            <CheckCircle2 size={14} className="text-emerald-400/50" />
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.3 + i * 0.12, type: "spring", stiffness: 400, damping: 15 }}
+            >
+              <CheckCircle2 size={14} className="text-emerald-400/50" />
+            </motion.div>
           </div>
         </motion.div>
       ))}
@@ -231,6 +244,16 @@ function ControlDemo() {
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent/10 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/20 transition-colors cursor-pointer"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              animate={{
+                boxShadow: [
+                  "0 0 0 0 rgba(79,143,234,0)",
+                  "0 0 0 6px rgba(79,143,234,0.1)",
+                  "0 0 0 0 rgba(79,143,234,0)",
+                ],
+              }}
+              transition={{
+                boxShadow: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+              }}
             >
               <ShieldCheck size={16} />
               Approve & Send
@@ -289,19 +312,31 @@ function InteractiveDemo() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
+          {/* Tabs with layoutId animated indicator */}
           <div className="flex justify-center gap-2 mb-8">
             {demoTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? "bg-accent/10 text-accent border border-accent/20"
-                    : "text-white/40 hover:text-white/60 hover:bg-white/[0.03] border border-transparent"
-                }`}
+                className="relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors duration-300"
               >
-                {tab.icon}
-                {tab.label}
+                {activeTab === tab.id && (
+                  <motion.div
+                    layoutId="demo-tab-bg"
+                    className="absolute inset-0 bg-accent/10 border border-accent/20 rounded-xl"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className={`relative z-10 ${
+                  activeTab === tab.id ? "text-accent" : "text-white/40 hover:text-white/60"
+                }`}>
+                  {tab.icon}
+                </span>
+                <span className={`relative z-10 ${
+                  activeTab === tab.id ? "text-accent" : "text-white/40 hover:text-white/60"
+                }`}>
+                  {tab.label}
+                </span>
               </button>
             ))}
           </div>
@@ -309,10 +344,10 @@ function InteractiveDemo() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.25 }}
+              initial={{ opacity: 0, y: 15, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -15, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="glass-card p-8"
             >
               {activeTab === "voice" && <VoiceDemo />}
@@ -377,9 +412,13 @@ function WorkflowExamples() {
               key={ex.title}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              transition={{
+                duration: 0.5,
+                delay: i * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               viewport={{ once: true }}
-              className="glass-card-hover p-7 flex gap-5"
+              className="glass-card-hover shimmer-border p-7 flex gap-5"
             >
               <div className="w-11 h-11 rounded-xl bg-accent-purple/10 border border-accent-purple/20 flex items-center justify-center text-accent-purple shrink-0">
                 {ex.icon}
