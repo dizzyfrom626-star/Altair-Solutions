@@ -87,6 +87,17 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setServicesOpen(false);
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -130,7 +141,9 @@ export default function Navbar() {
           <div ref={dropdownRef} className="relative">
             <button
               onClick={() => setServicesOpen(!servicesOpen)}
-              className={`flex items-center gap-1 px-3 py-2 text-sm transition-colors duration-300 rounded-lg hover:bg-white/[0.03] ${
+              aria-expanded={servicesOpen}
+              aria-controls="services-dropdown"
+              className={`flex items-center gap-1 px-3 py-2 text-sm transition-colors duration-300 rounded-lg hover:bg-white/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                 isServiceActive
                   ? "text-accent"
                   : "text-white/60 hover:text-white"
@@ -150,14 +163,17 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  id="services-dropdown"
+                  role="menu"
                   className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[380px] rounded-2xl glass p-2"
                 >
                   {services.map((service) => (
                     <Link
                       key={service.href}
                       href={service.href}
+                      role="menuitem"
                       onClick={() => setServicesOpen(false)}
-                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors duration-200 group/item"
+                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors duration-200 group/item focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
                     >
                       <div
                         className={`mt-0.5 p-2 rounded-lg bg-white/[0.04] ${service.color}`}
@@ -231,9 +247,11 @@ export default function Navbar() {
         </div>
 
         <button
-          className="md:hidden text-white/80 hover:text-accent transition-colors"
+          className="md:hidden text-white/80 hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-lg"
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
           <AnimatePresence mode="wait">
             {mobileOpen ? (
@@ -268,6 +286,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            id="mobile-menu"
             className="relative md:hidden glass border-t border-white/[0.06]"
           >
             <div className="px-6 py-6 flex flex-col gap-2">

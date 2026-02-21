@@ -60,6 +60,8 @@ function FAQItem({
   onToggle: () => void;
   index: number;
 }) {
+  const answerId = `faq-answer-${index}`;
+
   return (
     <motion.div
       className="border-b border-white/[0.04]"
@@ -70,7 +72,9 @@ function FAQItem({
     >
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 text-left group"
+        aria-expanded={isOpen}
+        aria-controls={answerId}
+        className="w-full flex items-center justify-between py-5 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
       >
         <span className="text-base font-medium text-white/80 group-hover:text-white transition-colors duration-300 pr-4">
           {question}
@@ -86,6 +90,8 @@ function FAQItem({
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id={answerId}
+            role="region"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

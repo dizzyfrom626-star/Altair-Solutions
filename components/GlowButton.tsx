@@ -100,6 +100,7 @@ export default function GlowButton({
         relative inline-flex items-center justify-center gap-2
         rounded-full border font-medium overflow-hidden
         transition-colors duration-300 cursor-pointer
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background
         ${v.base}
         ${sizes[size]}
         ${className}

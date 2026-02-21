@@ -1,6 +1,6 @@
-# Sovereign AI — Landing Page
+# Altair Solutions — Landing Page
 
-A modern, single-page landing page for an AI consultancy specializing in Local AI, Secure OpenClaw automation, and Data Sovereignty.
+A modern, multi-page marketing site for Altair Solutions — a growth and AI operations partner specializing in digital marketing, agentic AI automation, and private infrastructure.
 
 ## Tech Stack
 

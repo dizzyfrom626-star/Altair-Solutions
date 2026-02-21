@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Linkedin, Twitter, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
 import GlowButton from "./GlowButton";
 
@@ -21,7 +21,6 @@ const footerColumns = [
     links: [
       { label: "How We Work", href: "/how-we-work" },
       { label: "Contact", href: "#contact" },
-      { label: "Privacy Policy", href: "#" },
     ],
   },
   {
@@ -35,8 +34,6 @@ const footerColumns = [
 ];
 
 const socialLinks = [
-  { icon: <Twitter size={16} />, href: "#", label: "Twitter" },
-  { icon: <Linkedin size={16} />, href: "#", label: "LinkedIn" },
   { icon: <Mail size={16} />, href: "mailto:AltairSolutions.info@gmail.com", label: "Email" },
 ];
 
