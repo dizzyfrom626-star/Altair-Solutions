@@ -23,7 +23,7 @@ export default function KineticText() {
 
   const newOpacity = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
   const newY = useTransform(scrollYProgress, [0.45, 0.7], [60, 0]);
-  const newScale = useTransform(scrollYProgress, [0.45, 0.7], [1.03, 1]);
+  const newScale = useTransform(scrollYProgress, [0.45, 0.7], [1.08, 1]);
   const newBlurVal = useTransform(scrollYProgress, [0.45, 0.7], [14, 0]);
   const newFilter = useMotionTemplate`blur(${newBlurVal}px)`;
 
@@ -59,9 +59,9 @@ export default function KineticText() {
           </span>
         </motion.div>
 
-        <div className="relative h-[200px] flex items-center justify-center w-full max-w-[90vw]">
+        <div className="relative h-[200px] flex items-center justify-center">
           <motion.h2
-            className="absolute text-[clamp(2rem,8vw,6rem)] sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white/60 text-center whitespace-normal sm:whitespace-nowrap w-full"
+            className="absolute text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white/60 text-center whitespace-nowrap"
             style={{
               opacity: oldOpacity,
               y: oldY,
@@ -73,7 +73,7 @@ export default function KineticText() {
           </motion.h2>
 
           <motion.h2
-            className="absolute text-[clamp(2rem,8vw,6rem)] sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-center whitespace-normal sm:whitespace-nowrap w-full"
+            className="absolute text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-center whitespace-nowrap"
             style={{
               opacity: newOpacity,
               y: newY,
