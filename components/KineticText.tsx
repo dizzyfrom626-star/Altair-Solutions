@@ -78,7 +78,7 @@ export default function KineticText() {
       ref={containerRef}
       className="relative min-h-[200vh] flex items-start justify-center"
     >
-      <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-6 overflow-hidden">
+      <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-6">
         {/* Background gradient mesh */}
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
@@ -177,7 +177,7 @@ export default function KineticText() {
 
           {/* Old text */}
           <motion.h2
-            className="absolute text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white/60 text-center whitespace-nowrap"
+            className="absolute text-3xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white/60 text-center whitespace-nowrap"
             style={{
               opacity: oldOpacity,
               y: oldY,
@@ -190,7 +190,7 @@ export default function KineticText() {
 
           {/* New text */}
           <motion.h2
-            className="absolute text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-center whitespace-nowrap"
+            className="absolute text-3xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-center whitespace-nowrap"
             style={{
               opacity: newOpacity,
               y: newY,
