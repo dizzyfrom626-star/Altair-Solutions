@@ -34,7 +34,7 @@ const footerColumns = [
 ];
 
 const socialLinks = [
-  { icon: <Mail size={16} />, href: "mailto:AltairSolutions.info@gmail.com", label: "Email" },
+  { icon: <Mail size={16} />, href: "mailto:info@altairsolutions.agency", label: "Email" },
 ];
 
 export default function Footer() {
@@ -68,9 +68,9 @@ export default function Footer() {
             <GlowButton
               variant="ghost"
               size="lg"
-              href="mailto:AltairSolutions.info@gmail.com"
+              href="mailto:info@altairsolutions.agency"
             >
-              AltairSolutions.info@gmail.com
+              info@altairsolutions.agency
             </GlowButton>
           </div>
         </motion.div>
