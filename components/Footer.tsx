@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, Mail } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import GlowButton from "./GlowButton";
 
@@ -97,12 +98,13 @@ export default function Footer() {
             }}
           >
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-accent to-accent-purple flex items-center justify-center">
-                <span className="text-background font-bold text-xs">A</span>
-              </div>
-              <span className="text-sm font-semibold text-white">
-                Altair Solutions
-              </span>
+              <Image
+                src="/logo2.png"
+                alt="Altair Solutions"
+                width={320}
+                height={96}
+                className="h-20 w-auto object-contain"
+              />
             </Link>
             <p className="text-xs text-white/30 leading-relaxed max-w-[200px]">
               Growth and operations partner. We build the engine — you hold the

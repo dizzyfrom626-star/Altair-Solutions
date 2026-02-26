@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   motion,
   useScroll,
@@ -125,15 +126,18 @@ export default function Navbar() {
       <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
           <motion.div
-            className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-accent-purple flex items-center justify-center"
-            whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(79,143,234,0.3)" }}
+            whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
-            <span className="text-background font-bold text-sm">A</span>
+            <Image
+              src="/logo2.png"
+              alt="Altair Solutions"
+              width={400}
+              height={120}
+              className="h-24 w-auto object-contain"
+              priority
+            />
           </motion.div>
-          <span className="text-lg font-semibold text-white tracking-tight">
-            Altair Solutions
-          </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1">
