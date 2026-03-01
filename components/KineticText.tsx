@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
@@ -27,6 +27,10 @@ const particles = Array.from({ length: 24 }, (_, i) => ({
 
 export default function KineticText() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
@@ -115,7 +119,7 @@ export default function KineticText() {
           className="absolute inset-0 pointer-events-none"
           style={{ y: particleY, opacity: particleOpacity }}
         >
-          {particles.map((p, i) => (
+          {mounted && particles.map((p, i) => (
             <motion.div
               key={i}
               className="absolute rounded-full"

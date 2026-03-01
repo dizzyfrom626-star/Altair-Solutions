@@ -123,7 +123,7 @@ export default function Navbar() {
           WebkitBackdropFilter: backdropBlur,
         }}
       />
-      <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="relative max-w-7xl mx-auto px-4 py-3 md:px-6 md:py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -134,7 +134,7 @@ export default function Navbar() {
               alt="Altair Solutions"
               width={400}
               height={120}
-              className="h-24 w-auto object-contain"
+              className="h-14 sm:h-16 md:h-24 w-auto object-contain"
               priority
             />
           </motion.div>

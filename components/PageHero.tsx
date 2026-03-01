@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import GlowButton from "./GlowButton";
 import { ArrowRight } from "lucide-react";
@@ -38,11 +39,14 @@ export default function PageHero({
   ctaText = "Book a Strategy Call",
   ctaHref = "https://calendly.com/dizzy-from-626/30min",
 }: PageHeroProps) {
+  const [mounted, setMounted] = useState(false);
   const titleWords = title.split(" ");
   const accentWords = titleAccent.split(" ");
 
+  useEffect(() => setMounted(true), []);
+
   return (
-    <section className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 px-6 overflow-hidden">
+    <section className="relative pt-28 pb-20 sm:pt-36 sm:pb-28 md:pt-44 md:pb-28 px-6 overflow-hidden">
       {/* Gradient mesh background */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -72,9 +76,9 @@ export default function PageHero({
         />
       </div>
 
-      {/* Floating particles */}
+      {/* Floating particles — client-only to avoid hydration mismatch */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {particles.map((p, i) => (
+        {mounted && particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"

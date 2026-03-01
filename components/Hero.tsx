@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
   motion,
   useScroll,
@@ -88,10 +88,13 @@ function GradientMeshHero() {
 
 function ParallaxGrid() {
   const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1000], [0, -250]);
   const y2 = useTransform(scrollY, [0, 1000], [0, -120]);
   const opacity = useTransform(scrollY, [0, 600], [1, 0]);
+
+  useEffect(() => setMounted(true), []);
 
   return (
     <motion.div
@@ -119,12 +122,11 @@ function ParallaxGrid() {
         />
       </div>
 
-      {/* Secondary parallax layer */}
       <motion.div
         className="absolute inset-0"
         style={{ y: y2, willChange: "transform" }}
       >
-        {particles.map((p, i) => (
+        {mounted && particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"
@@ -179,7 +181,7 @@ export default function Hero() {
   }, [mouseX, mouseY]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden pt-24 md:pt-32 pb-8">
       <GradientMeshHero />
       <ParallaxGrid />
 
