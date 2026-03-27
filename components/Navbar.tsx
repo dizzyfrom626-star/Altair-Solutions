@@ -243,7 +243,7 @@ export default function Navbar() {
             <GlowButton
               variant="primary"
               size="sm"
-              href="https://calendly.com/altairaisolutions"
+              href="https://calendly.com/altairaisolutions/30min"
             >
               Book a Call
             </GlowButton>
@@ -360,7 +360,7 @@ export default function Navbar() {
                 <GlowButton
                   variant="primary"
                   size="sm"
-                  href="https://calendly.com/altairaisolutions"
+                  href="https://calendly.com/altairaisolutions/30min"
                 >
                   Book a Call
                 </GlowButton>

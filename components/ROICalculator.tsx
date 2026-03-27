@@ -218,7 +218,7 @@ export default function ROICalculator() {
                 <span className="text-cyan font-bold">60%</span> over 5 years
               </span>
             </div>
-            <GlowButton variant="primary" size="sm" href="https://calendly.com/altairaisolutions">
+            <GlowButton variant="primary" size="sm" href="https://calendly.com/altairaisolutions/30min">
               Start Saving
             </GlowButton>
           </motion.div>

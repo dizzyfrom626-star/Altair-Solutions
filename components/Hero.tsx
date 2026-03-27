@@ -239,7 +239,7 @@ export default function Hero() {
             <GlowButton
               variant="primary"
               size="lg"
-              href="https://calendly.com/altairaisolutions"
+              href="https://calendly.com/altairaisolutions/30min"
             >
               Book a Strategy Call
               <ArrowRight size={18} />
