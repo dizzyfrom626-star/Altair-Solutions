@@ -242,7 +242,7 @@ function Differentiators() {
           viewport={{ once: true }}
           className="text-center mt-14"
         >
-          <GlowButton variant="primary" size="lg" href="https://calendly.com/dizzy-from-626/30min">
+          <GlowButton variant="primary" size="lg" href="https://calendly.com/altairaisolutions">
             Start Your Audit
             <ArrowRight size={18} />
           </GlowButton>

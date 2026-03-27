@@ -259,7 +259,7 @@ export default function IndustryTabs() {
 
                   <div className="mt-6">
                     <a
-                      href="https://calendly.com/dizzy-from-626/30min"
+                      href="https://calendly.com/altairaisolutions"
                       className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-light transition-colors group"
                     >
                       Get a free audit for your industry

@@ -37,7 +37,7 @@ export default function PageHero({
   titleAccent,
   subtitle,
   ctaText = "Book a Strategy Call",
-  ctaHref = "https://calendly.com/dizzy-from-626/30min",
+  ctaHref = "https://calendly.com/altairaisolutions",
 }: PageHeroProps) {
   const [mounted, setMounted] = useState(false);
   const titleWords = title.split(" ");

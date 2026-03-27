@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import GlowButton from "./GlowButton";
 
-const CALENDLY_URL = "https://calendly.com/dizzy-from-626/30min";
+const CALENDLY_URL = "https://calendly.com/altairaisolutions";
 
 const footerColumns = [
   {

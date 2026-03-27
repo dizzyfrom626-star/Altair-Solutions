@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import GlowButton from "./GlowButton";
 
-const CALENDLY_URL = "https://calendly.com/dizzy-from-626/30min";
+const CALENDLY_URL = "https://calendly.com/altairaisolutions";
 
 const expectations = [
   {
