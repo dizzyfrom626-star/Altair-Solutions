@@ -20,13 +20,13 @@ const pillars = [
   {
     icon: <Megaphone size={24} />,
     title: "Growth Engine",
-    subtitle: "Digital Marketing",
+    subtitle: "Lead Response Automation",
     description:
-      "AI-enhanced paid ads, SEO, and lead generation that fills your pipeline — then hands off to your AI workforce.",
+      "When leads come in, AI responds instantly, qualifies them, and books the meeting. No more leads dying in an inbox while your team's in back-to-back calls.",
     features: [
-      { icon: <TrendingUp size={14} />, text: "Paid ads & SEO management" },
       { icon: <Phone size={14} />, text: "Speed-to-lead in under 10 seconds" },
-      { icon: <Zap size={14} />, text: "AI-optimized campaign performance" },
+      { icon: <TrendingUp size={14} />, text: "Instant qualification & booking" },
+      { icon: <Zap size={14} />, text: "Works with any CRM or ad source" },
     ],
     href: "/growth",
     iconColor: "text-sky-400",
@@ -38,10 +38,10 @@ const pillars = [
   },
   {
     icon: <Bot size={24} />,
-    title: "AI Workforce",
+    title: "AI Teammates",
     subtitle: "Agentic Automation",
     description:
-      "Custom AI agents that handle your repetitive tasks — drafting emails, updating CRMs, routing tickets — with you always in control.",
+      "Custom AI agents that handle your repetitive tasks — drafting emails, updating CRMs, routing tickets — so your team focuses on work that actually needs a human.",
     features: [
       { icon: <Brain size={14} />, text: "Custom-built AI agents" },
       { icon: <Shield size={14} />, text: "Human-in-the-loop approval" },

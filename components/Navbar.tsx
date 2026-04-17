@@ -27,11 +27,11 @@ const services = [
     label: "Growth Engine",
     href: "/growth",
     icon: <Megaphone size={20} />,
-    description: "Paid ads, SEO, and AI-powered lead generation",
+    description: "Instant AI lead response, qualification, and booking",
     color: "text-accent-cyan",
   },
   {
-    label: "AI Workforce",
+    label: "AI Teammates",
     href: "/automation",
     icon: <Bot size={20} />,
     description: "Agentic AI automation with human-in-the-loop",

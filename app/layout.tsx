@@ -18,11 +18,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Altair Solutions | Growth & AI Operations Partner",
   description:
-    "We fill your pipeline with leads and install the AI workforce to manage them. Digital marketing, agentic AI automation, and private infrastructure — fully supervised by you.",
+    "AI teammates that respond to leads in seconds, handle the admin drag, and run on infrastructure you own. Agentic automation and private AI — always with a human in the loop.",
   openGraph: {
     title: "Altair Solutions | Growth & AI Operations Partner",
     description:
-      "We fill your pipeline with leads and install the AI workforce to manage them — fully supervised by you.",
+      "AI teammates that respond to leads in seconds, handle the admin drag, and run on infrastructure you own — always with a human in the loop.",
     siteName: "Altair Solutions",
     type: "website",
     locale: "en_US",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Altair Solutions | Growth & AI Operations Partner",
     description:
-      "We fill your pipeline with leads and install the AI workforce to manage them — fully supervised by you.",
+      "AI teammates that respond to leads in seconds, handle the admin drag, and run on infrastructure you own — always with a human in the loop.",
   },
 };
 

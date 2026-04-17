@@ -13,7 +13,7 @@ const footerColumns = [
     title: "Services",
     links: [
       { label: "Growth Engine", href: "/growth" },
-      { label: "AI Workforce", href: "/automation" },
+      { label: "AI Teammates", href: "/automation" },
       { label: "Infrastructure", href: "/infrastructure" },
     ],
   },

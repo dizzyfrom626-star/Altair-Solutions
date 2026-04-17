@@ -443,7 +443,7 @@ export default function AutomationPageClient() {
     <main>
       <Navbar />
       <PageHero
-        label="AI Workforce"
+        label="AI Teammates"
         title="Your Team's New"
         titleAccent="AI Coworkers."
         subtitle="Custom-built AI agents that handle your busywork — drafting, routing, calling, updating — with human approval on every action that matters."

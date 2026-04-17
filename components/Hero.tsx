@@ -35,7 +35,7 @@ const stats = [
   { value: 200, suffix: "+", label: "Workflows Automated" },
   { value: 10, suffix: "s", label: "Speed to Lead" },
   { value: 60, suffix: "%", label: "Cost Reduction" },
-  { prefix: "24/", value: 7, suffix: "", label: "AI Workforce" },
+  { prefix: "24/", value: 7, suffix: "", label: "Coverage" },
 ];
 
 function GradientMeshHero() {
@@ -213,10 +213,10 @@ export default function Hero() {
             className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.95] tracking-tight mb-8"
           >
             <span className="block text-gradient-subtle">
-              Scale Your Revenue,
+              Your Team, Upgraded.
             </span>
             <span className="block text-gradient mt-1">
-              Not Your Headcount.
+              Not Replaced.
             </span>
           </motion.h1>
 
@@ -226,8 +226,9 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg sm:text-xl text-muted-light max-w-2xl mx-auto mb-12 leading-relaxed"
           >
-            We fill your pipeline with leads AND install the AI workforce to
-            manage them&mdash;fully supervised by you.
+            AI teammates that respond to leads in seconds, handle the admin
+            drag, and run on infrastructure you own&mdash;always with a human
+            in the loop.
           </motion.p>
 
           <motion.div
